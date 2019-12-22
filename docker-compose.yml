@@ -1,7 +1,7 @@
 version: "3.3"
 
 networks:
-  net:
+  prom_net:
     driver: overlay
     attachable: true
 
@@ -24,7 +24,7 @@ services:
   dockerd-exporter:
     image: stefanprodan/caddy
     networks:
-      - net
+      - prom_net
     environment:
       - DOCKER_GWBRIDGE_IP=172.18.0.1
     configs:
@@ -41,7 +41,7 @@ services:
   cadvisor:
     image: google/cadvisor
     networks:
-      - net
+      - prom_net
     command: -logtostderr -docker_only
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -60,7 +60,7 @@ services:
   grafana:
     image: stefanprodan/swarmprom-grafana:5.3.4
     networks:
-      - net
+      - prom_net
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
@@ -89,7 +89,7 @@ services:
   alertmanager:
     image: stefanprodan/swarmprom-alertmanager:v0.14.0
     networks:
-      - net
+      - prom_net
     environment:
       - SLACK_URL=${SLACK_URL:-https://hooks.slack.com/services/TOKEN}
       - SLACK_CHANNEL=${SLACK_CHANNEL:-general}
@@ -114,7 +114,7 @@ services:
   unsee:
     image: cloudflare/unsee:v0.8.0
     networks:
-      - net
+      - prom_net
     environment:
       - "ALERTMANAGER_URIS=default:http://alertmanager:9093"
     deploy:
@@ -124,7 +124,7 @@ services:
   node-exporter:
     image: stefanprodan/swarmprom-node-exporter:v0.16.0
     networks:
-      - net
+      - prom_net
     environment:
       - NODE_ID={{.Node.ID}}
     volumes:
@@ -149,7 +149,7 @@ services:
   prometheus:
     image: stefanprodan/swarmprom-prometheus:v2.5.0
     networks:
-      - net
+      - prom_net
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -181,7 +181,7 @@ services:
       - "9093:9093"
       - "9094:9094"
     networks:
-      - net
+      - prom_net
     environment:
       - ADMIN_USER=${ADMIN_USER:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
