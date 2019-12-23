@@ -35,8 +35,6 @@ services:
       resources:
         limits:
           memory: 128M
-        reservations:
-          memory: 64M
 
   cadvisor:
     image: google/cadvisor
@@ -54,8 +52,6 @@ services:
       resources:
         limits:
           memory: 128M
-        reservations:
-          memory: 64M
 
   grafana:
     image: stefanprodan/swarmprom-grafana:5.3.4
@@ -83,8 +79,6 @@ services:
       resources:
         limits:
           memory: 128M
-        reservations:
-          memory: 64M
 
   alertmanager:
     image: stefanprodan/swarmprom-alertmanager:v0.14.0
@@ -108,8 +102,7 @@ services:
       resources:
         limits:
           memory: 128M
-        reservations:
-          memory: 64M
+
 
   unsee:
     image: cloudflare/unsee:v0.8.0
@@ -120,6 +113,9 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+      resources:
+        limits:
+          memory: 128M
 
   node-exporter:
     image: stefanprodan/swarmprom-node-exporter:v0.16.0
@@ -143,8 +139,6 @@ services:
       resources:
         limits:
           memory: 128M
-        reservations:
-          memory: 64M
 
   prometheus:
     image: stefanprodan/swarmprom-prometheus:v2.5.0
@@ -170,8 +164,7 @@ services:
       resources:
         limits:
           memory: 2048M
-        reservations:
-          memory: 128M
+
 
   caddy:
     image: stefanprodan/caddy
@@ -197,8 +190,6 @@ services:
       resources:
         limits:
           memory: 128M
-        reservations:
-          memory: 64M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 5s
