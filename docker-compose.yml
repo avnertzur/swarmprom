@@ -76,6 +76,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.labels.az == az1
       resources:
         limits:
           memory: 128M
@@ -99,6 +100,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.labels.az == az1          
       resources:
         limits:
           memory: 128M
@@ -161,6 +163,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.labels.az == az1          
       resources:
         limits:
           memory: 2048M
@@ -187,6 +190,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.labels.az == az1          
       resources:
         limits:
           memory: 128M
